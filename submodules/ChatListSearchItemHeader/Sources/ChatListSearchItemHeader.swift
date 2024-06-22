@@ -10,7 +10,7 @@ public enum ChatListSearchItemHeaderType {
     case contacts
     case bots
     case admins
-    case globalPeers
+    //case globalPeers
     case deviceContacts
     case recentPeers
     case phoneNumber
@@ -45,8 +45,8 @@ public enum ChatListSearchItemHeaderType {
                 return strings.MemberSearch_BotSection
             case .admins:
                 return strings.Channel_Management_Title
-            case .globalPeers:
-                return strings.DialogList_SearchSectionGlobal
+//            case .globalPeers:
+//                return strings.DialogList_SearchSectionGlobal
             case .deviceContacts:
                 return strings.Contacts_NotRegisteredSection
             case .recentPeers:
@@ -108,8 +108,8 @@ public enum ChatListSearchItemHeaderType {
                 return .bots
             case .admins:
                 return .admins
-            case .globalPeers:
-                return .globalPeers
+//            case .globalPeers:
+//                return .globalPeers
             case .deviceContacts:
                 return .deviceContacts
             case .recentPeers:

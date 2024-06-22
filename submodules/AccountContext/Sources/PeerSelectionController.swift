@@ -73,7 +73,7 @@ public final class PeerSelectionControllerParams {
         hasFilters: Bool = false,
         hasChatListSelector: Bool = true,
         hasContactSelector: Bool = true,
-        hasGlobalSearch: Bool = true,
+        hasGlobalSearch: Bool = true, //try change
         title: String? = nil,
         attemptSelection: ((EnginePeer, Int64?, ChatListDisabledPeerReason) -> Void)? = nil,
         createNewGroup: (() -> Void)? = nil,

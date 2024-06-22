@@ -19,7 +19,7 @@ import TelegramAnimatedStickerNode
 
 private enum ContactListSearchGroup {
     case contacts
-    case global
+//    case global
     case deviceContacts
 }
 
@@ -141,13 +141,13 @@ private enum ContactListSearchEntry: Comparable, Identifiable {
                         } else {
                             status = .none
                         }
-                    case .global:
-                        header = ChatListSearchItemHeader(type: .globalPeers, theme: theme, strings: strings, actionTitle: nil, action: nil)
-                        if case let .peer(peer, _, _) = peer, let _ = peer.addressName {
-                            status = .addressName("")
-                        } else {
-                            status = .none
-                        }
+//                    case .global:
+//                        header = ChatListSearchItemHeader(type: .globalPeers, theme: theme, strings: strings, actionTitle: nil, action: nil)
+//                        if case let .peer(peer, _, _) = peer, let _ = peer.addressName {
+//                            status = .addressName("")
+//                        } else {
+//                            status = .none
+//                        }
                     case .deviceContacts:
                         header = ChatListSearchItemHeader(type: .deviceContacts, theme: theme, strings: strings, actionTitle: nil, action: nil)
                         status = .none
@@ -452,17 +452,17 @@ public final class ContactsSearchContainerNode: SearchDisplayControllerContentNo
                             if !existingPeerIds.contains(peer.peer.id) {
                                 existingPeerIds.insert(peer.peer.id)
                                 
-                                var enabled = true
-                                var requiresPremiumForMessaging = false
-                                if onlyWriteable {
-                                    enabled = canSendMessagesToPeer(peer.peer)
-                                    if let value = peerRequiresPremiumForMessaging[peer.peer.id], value {
-                                        requiresPremiumForMessaging = true
-                                        enabled = false
-                                    }
-                                }
+//                                var enabled = true
+//                                var requiresPremiumForMessaging = false
+//                                if onlyWriteable {
+//                                    enabled = canSendMessagesToPeer(peer.peer)
+//                                    if let value = peerRequiresPremiumForMessaging[peer.peer.id], value {
+//                                        requiresPremiumForMessaging = true
+//                                        enabled = false
+//                                    }
+//                                }
                                 
-                                entries.append(.peer(index, themeAndStrings.0, themeAndStrings.1, .peer(peer: peer.peer, isGlobal: true, participantCount: peer.subscribers), nil, .global, enabled, requiresPremiumForMessaging))
+//                                entries.append(.peer(index, themeAndStrings.0, themeAndStrings.1, .peer(peer: peer.peer, isGlobal: true, participantCount: peer.subscribers), nil, .global, enabled, requiresPremiumForMessaging))
                                 if searchDeviceContacts, let user = peer.peer as? TelegramUser, let phone = user.phone {
                                     existingNormalizedPhoneNumbers.insert(DeviceContactNormalizedPhoneNumber(rawValue: formatPhoneNumber(phone)))
                                 }
@@ -484,17 +484,17 @@ public final class ContactsSearchContainerNode: SearchDisplayControllerContentNo
                             if !existingPeerIds.contains(peer.peer.id) {
                                 existingPeerIds.insert(peer.peer.id)
                                 
-                                var enabled = true
-                                var requiresPremiumForMessaging = false
-                                if onlyWriteable {
-                                    enabled = canSendMessagesToPeer(peer.peer)
-                                    if let value = peerRequiresPremiumForMessaging[peer.peer.id], value {
-                                        requiresPremiumForMessaging = true
-                                        enabled = false
-                                    }
-                                }
+//                                var enabled = true
+//                                var requiresPremiumForMessaging = false
+//                                if onlyWriteable {
+//                                    enabled = canSendMessagesToPeer(peer.peer)
+//                                    if let value = peerRequiresPremiumForMessaging[peer.peer.id], value {
+//                                        requiresPremiumForMessaging = true
+//                                        enabled = false
+//                                    }
+//                                }
                                 
-                                entries.append(.peer(index, themeAndStrings.0, themeAndStrings.1, .peer(peer: peer.peer, isGlobal: true, participantCount: peer.subscribers), nil, .global, enabled, requiresPremiumForMessaging))
+//                                entries.append(.peer(index, themeAndStrings.0, themeAndStrings.1, .peer(peer: peer.peer, isGlobal: true, participantCount: peer.subscribers), nil, .global, enabled, requiresPremiumForMessaging))
                                 if searchDeviceContacts, let user = peer.peer as? TelegramUser, let phone = user.phone {
                                     existingNormalizedPhoneNumbers.insert(DeviceContactNormalizedPhoneNumber(rawValue: formatPhoneNumber(phone)))
                                 }

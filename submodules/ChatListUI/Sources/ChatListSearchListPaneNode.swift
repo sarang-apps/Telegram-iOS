@@ -366,7 +366,7 @@ public enum ChatListSearchEntry: Comparable, Identifiable {
     case topic(EnginePeer, ChatListItemContent.ThreadInfo, Int, PresentationTheme, PresentationStrings, ChatListSearchSectionExpandType)
     case recentlySearchedPeer(EnginePeer, EnginePeer?, (Int32, Bool)?, Int, PresentationTheme, PresentationStrings, PresentationPersonNameOrder, PresentationPersonNameOrder, PeerStoryStats?, Bool)
     case localPeer(EnginePeer, EnginePeer?, (Int32, Bool)?, Int, PresentationTheme, PresentationStrings, PresentationPersonNameOrder, PresentationPersonNameOrder, ChatListSearchSectionExpandType, PeerStoryStats?, Bool)
-    case globalPeer(FoundPeer, (Int32, Bool)?, Int, PresentationTheme, PresentationStrings, PresentationPersonNameOrder, PresentationPersonNameOrder, ChatListSearchSectionExpandType, PeerStoryStats?, Bool)
+//    case globalPeer(FoundPeer, (Int32, Bool)?, Int, PresentationTheme, PresentationStrings, PresentationPersonNameOrder, PresentationPersonNameOrder, ChatListSearchSectionExpandType, PeerStoryStats?, Bool)
     case message(EngineMessage, EngineRenderedPeer, EnginePeerReadCounters?, EngineMessageHistoryThread.Info?, ChatListPresentationData, Int32, Bool?, Bool, MessageOrderingKey, (id: String, size: Int64, isFirstInList: Bool)?, MessageSection, Bool, PeerStoryStats?, Bool)
     case addContact(String, PresentationTheme, PresentationStrings)
     
@@ -378,8 +378,8 @@ public enum ChatListSearchEntry: Comparable, Identifiable {
             return .localPeerId(peer.id)
         case let .localPeer(peer, _, _, _, _, _, _, _, _, _, _):
             return .localPeerId(peer.id)
-        case let .globalPeer(peer, _, _, _, _, _, _, _, _, _):
-            return .globalPeerId(peer.peer.id)
+//        case let .globalPeer(peer, _, _, _, _, _, _, _, _, _):
+//            return .globalPeerId(peer.peer.id)
         case let .message(message, _, _, _, _, _, _, _, _, _, section, _, _, _):
             return .messageId(message.id, section)
         case .addContact:
@@ -407,12 +407,12 @@ public enum ChatListSearchEntry: Comparable, Identifiable {
             } else {
                 return false
             }
-        case let .globalPeer(lhsPeer, lhsUnreadBadge, lhsIndex, lhsTheme, lhsStrings, lhsSortOrder, lhsDisplayOrder, lhsExpandType, lhsStoryStats, lhsRequiresPremiumForMessaging):
-            if case let .globalPeer(rhsPeer, rhsUnreadBadge, rhsIndex, rhsTheme, rhsStrings, rhsSortOrder, rhsDisplayOrder, rhsExpandType, rhsStoryStats, rhsRequiresPremiumForMessaging) = rhs, lhsPeer == rhsPeer && lhsIndex == rhsIndex && lhsTheme === rhsTheme && lhsStrings === rhsStrings && lhsSortOrder == rhsSortOrder && lhsDisplayOrder == rhsDisplayOrder && lhsUnreadBadge?.0 == rhsUnreadBadge?.0 && lhsUnreadBadge?.1 == rhsUnreadBadge?.1 && lhsExpandType == rhsExpandType && lhsStoryStats == rhsStoryStats && lhsRequiresPremiumForMessaging == rhsRequiresPremiumForMessaging {
-                return true
-            } else {
-                return false
-            }
+//        case let .globalPeer(lhsPeer, lhsUnreadBadge, lhsIndex, lhsTheme, lhsStrings, lhsSortOrder, lhsDisplayOrder, lhsExpandType, lhsStoryStats, lhsRequiresPremiumForMessaging):
+//            if case let .globalPeer(rhsPeer, rhsUnreadBadge, rhsIndex, rhsTheme, rhsStrings, rhsSortOrder, rhsDisplayOrder, rhsExpandType, rhsStoryStats, rhsRequiresPremiumForMessaging) = rhs, lhsPeer == rhsPeer && lhsIndex == rhsIndex && lhsTheme === rhsTheme && lhsStrings === rhsStrings && lhsSortOrder == rhsSortOrder && lhsDisplayOrder == rhsDisplayOrder && lhsUnreadBadge?.0 == rhsUnreadBadge?.0 && lhsUnreadBadge?.1 == rhsUnreadBadge?.1 && lhsExpandType == rhsExpandType && lhsStoryStats == rhsStoryStats && lhsRequiresPremiumForMessaging == rhsRequiresPremiumForMessaging {
+//                return true
+//            } else {
+//                return false
+//            }
         case let .message(lhsMessage, lhsPeer, lhsCombinedPeerReadState, lhsThreadInfo, lhsPresentationData, lhsTotalCount, lhsSelected, lhsDisplayCustomHeader, lhsKey, lhsResourceId, lhsSection, lhsAllPaused, lhsStoryStats, lhsRequiresPremiumForMessaging):
             if case let .message(rhsMessage, rhsPeer, rhsCombinedPeerReadState, rhsThreadInfo, rhsPresentationData, rhsTotalCount, rhsSelected, rhsDisplayCustomHeader, rhsKey, rhsResourceId, rhsSection, rhsAllPaused, rhsStoryStats, rhsRequiresPremiumForMessaging) = rhs {
                 if lhsMessage.id != rhsMessage.id {
@@ -507,18 +507,18 @@ public enum ChatListSearchEntry: Comparable, Identifiable {
                 return false
             case let .localPeer(_, _, _, rhsIndex, _, _, _, _, _, _, _):
                 return lhsIndex <= rhsIndex
-            case .globalPeer, .message, .addContact:
+            case .message, .addContact: //.globalPeer
                 return true
             }
-        case let .globalPeer(_, _, lhsIndex, _, _, _, _, _, _, _):
-            switch rhs {
-            case .topic, .recentlySearchedPeer, .localPeer:
-                return false
-            case let .globalPeer(_, _, rhsIndex, _, _, _, _, _, _, _):
-                return lhsIndex <= rhsIndex
-            case .message, .addContact:
-                return true
-            }
+//        case let .globalPeer(_, _, lhsIndex, _, _, _, _, _, _, _):
+//            switch rhs {
+//            case .topic, .recentlySearchedPeer, .localPeer:
+//                return false
+//            case let .globalPeer(_, _, rhsIndex, _, _, _, _, _, _, _):
+//                return lhsIndex <= rhsIndex
+//            case .message, .addContact:
+//                return true
+//            }
         case let .message(_, _, _, _, _, _, _, _, lhsKey, _, _, _, _, _):
             if case let .message(_, _, _, _, _, _, _, _, rhsKey, _, _, _, _, _) = rhs {
                 return lhsKey < rhsKey
@@ -754,84 +754,84 @@ public enum ChatListSearchEntry: Comparable, Identifiable {
                         openStories(peer.id, sourceNode.avatarNode)
                     }
                 })
-            case let .globalPeer(peer, unreadBadge, _, theme, strings, nameSortOrder, nameDisplayOrder, expandType, storyStats, requiresPremiumForMessaging):
-                var enabled = true
-                if filter.contains(.onlyWriteable) {
-                    enabled = canSendMessagesToPeer(peer.peer)
-                    if requiresPremiumForMessaging {
-                        enabled = false
-                    }
-                }
-                if filter.contains(.onlyPrivateChats) {
-                    if !(peer.peer is TelegramUser || peer.peer is TelegramSecretChat) {
-                        enabled = false
-                    }
-                }
-                if filter.contains(.onlyGroups) {
-                    if let _ = peer.peer as? TelegramGroup {
-                    } else if let peer = peer.peer as? TelegramChannel, case .group = peer.info {
-                    } else {
-                        enabled = false
-                    }
-                }
-                
-                var suffixString = ""
-                if let subscribers = peer.subscribers, subscribers != 0 {
-                    if peer.peer is TelegramUser {
-                        suffixString = ", \(strings.Conversation_StatusSubscribers(subscribers))"
-                    } else if let channel = peer.peer as? TelegramChannel, case .broadcast = channel.info {
-                        suffixString = ", \(strings.Conversation_StatusSubscribers(subscribers))"
-                    } else {
-                        suffixString = ", \(strings.Conversation_StatusMembers(subscribers))"
-                    }
-                }
-                
-                var badge: ContactsPeerItemBadge?
-                if let unreadBadge = unreadBadge {
-                    badge = ContactsPeerItemBadge(count: unreadBadge.0, type: unreadBadge.1 ? .inactive : .active)
-                }
-                
-                let header: ChatListSearchItemHeader?
-                if filter.contains(.removeSearchHeader) {
-                    header = nil
-                } else {
-                    let actionTitle: String?
-                    switch expandType {
-                    case .none:
-                        actionTitle = nil
-                    case .expand:
-                        actionTitle = strings.ChatList_Search_ShowMore
-                    case .collapse:
-                        actionTitle = strings.ChatList_Search_ShowLess
-                    }
-                    header = ChatListSearchItemHeader(type: .globalPeers, theme: theme, strings: strings, actionTitle: actionTitle, action: actionTitle == nil ? nil : {
-                        toggleExpandGlobalResults()
-                    })
-                }
-            
-                var isSavedMessages = false
-                if case .savedMessagesChats = location {
-                    isSavedMessages = true
-                }
-                
-                return ContactsPeerItem(presentationData: ItemListPresentationData(presentationData), sortOrder: nameSortOrder, displayOrder: nameDisplayOrder, context: context, peerMode: .generalSearch(isSavedMessages: isSavedMessages), peer: .peer(peer: EnginePeer(peer.peer), chatPeer: EnginePeer(peer.peer)), status: .addressName(suffixString), badge: badge, requiresPremiumForMessaging: requiresPremiumForMessaging, enabled: enabled, selection: .none, editing: ContactsPeerItemEditing(editable: false, editing: false, revealed: false), index: nil, header: header, action: { _ in
-                    interaction.peerSelected(EnginePeer(peer.peer), nil, nil, nil)
-                }, disabledAction: { _ in
-                    interaction.disabledPeerSelected(EnginePeer(peer.peer), nil, requiresPremiumForMessaging ? .premiumRequired : .generic)
-                }, contextAction: peerContextAction.flatMap { peerContextAction in
-                    return { node, gesture, location in
-                        peerContextAction(EnginePeer(peer.peer), .search(nil), node, gesture, location)
-                    }
-                }, animationCache: interaction.animationCache, animationRenderer: interaction.animationRenderer, storyStats: storyStats.flatMap { stats in
-                    return (stats.totalCount, stats.unseenCount, stats.hasUnseenCloseFriends)
-                }, openStories: { itemPeer, sourceNode in
-                    guard case let .peer(_, chatPeer) = itemPeer, let peer = chatPeer else {
-                        return
-                    }
-                    if let sourceNode = sourceNode as? ContactsPeerItemNode {
-                        openStories(peer.id, sourceNode.avatarNode)
-                    }
-                })
+//            case let .globalPeer(peer, unreadBadge, _, theme, strings, nameSortOrder, nameDisplayOrder, expandType, storyStats, requiresPremiumForMessaging):
+//                var enabled = true
+//                if filter.contains(.onlyWriteable) {
+//                    enabled = canSendMessagesToPeer(peer.peer)
+//                    if requiresPremiumForMessaging {
+//                        enabled = false
+//                    }
+//                }
+//                if filter.contains(.onlyPrivateChats) {
+//                    if !(peer.peer is TelegramUser || peer.peer is TelegramSecretChat) {
+//                        enabled = false
+//                    }
+//                }
+//                if filter.contains(.onlyGroups) {
+//                    if let _ = peer.peer as? TelegramGroup {
+//                    } else if let peer = peer.peer as? TelegramChannel, case .group = peer.info {
+//                    } else {
+//                        enabled = false
+//                    }
+//                }
+//                
+//                var suffixString = ""
+//                if let subscribers = peer.subscribers, subscribers != 0 {
+//                    if peer.peer is TelegramUser {
+//                        suffixString = ", \(strings.Conversation_StatusSubscribers(subscribers))"
+//                    } else if let channel = peer.peer as? TelegramChannel, case .broadcast = channel.info {
+//                        suffixString = ", \(strings.Conversation_StatusSubscribers(subscribers))"
+//                    } else {
+//                        suffixString = ", \(strings.Conversation_StatusMembers(subscribers))"
+//                    }
+//                }
+//                
+//                var badge: ContactsPeerItemBadge?
+//                if let unreadBadge = unreadBadge {
+//                    badge = ContactsPeerItemBadge(count: unreadBadge.0, type: unreadBadge.1 ? .inactive : .active)
+//                }
+//                
+//                let header: ChatListSearchItemHeader?
+//                if filter.contains(.removeSearchHeader) {
+//                    header = nil
+//                } else {
+//                    let actionTitle: String?
+//                    switch expandType {
+//                    case .none:
+//                        actionTitle = nil
+//                    case .expand:
+//                        actionTitle = strings.ChatList_Search_ShowMore
+//                    case .collapse:
+//                        actionTitle = strings.ChatList_Search_ShowLess
+//                    }
+//                    header = ChatListSearchItemHeader(type: .globalPeers, theme: theme, strings: strings, actionTitle: actionTitle, action: actionTitle == nil ? nil : {
+//                        toggleExpandGlobalResults()
+//                   })
+//                }
+//            
+//                var isSavedMessages = false
+//                if case .savedMessagesChats = location {
+//                    isSavedMessages = true
+//                }
+//                
+//                return ContactsPeerItem(presentationData: ItemListPresentationData(presentationData), sortOrder: nameSortOrder, displayOrder: nameDisplayOrder, context: context, peerMode: .generalSearch(isSavedMessages: isSavedMessages), peer: .peer(peer: EnginePeer(peer.peer), chatPeer: EnginePeer(peer.peer)), status: .addressName(suffixString), badge: badge, requiresPremiumForMessaging: requiresPremiumForMessaging, enabled: enabled, selection: .none, editing: ContactsPeerItemEditing(editable: false, editing: false, revealed: false), index: nil, header: header, action: { _ in
+//                    interaction.peerSelected(EnginePeer(peer.peer), nil, nil, nil)
+//                }, disabledAction: { _ in
+//                    interaction.disabledPeerSelected(EnginePeer(peer.peer), nil, requiresPremiumForMessaging ? .premiumRequired : .generic)
+//                }, contextAction: peerContextAction.flatMap { peerContextAction in
+//                    return { node, gesture, location in
+//                        peerContextAction(EnginePeer(peer.peer), .search(nil), node, gesture, location)
+//                    }
+//                }, animationCache: interaction.animationCache, animationRenderer: interaction.animationRenderer, storyStats: storyStats.flatMap { stats in
+//                    return (stats.totalCount, stats.unseenCount, stats.hasUnseenCloseFriends)
+//                }, openStories: { itemPeer, sourceNode in
+//                    guard case let .peer(_, chatPeer) = itemPeer, let peer = chatPeer else {
+//                        return
+//                    }
+//                    if let sourceNode = sourceNode as? ContactsPeerItemNode {
+//                        openStories(peer.id, sourceNode.avatarNode)
+//                    }
+//                })
             case let .message(message, peer, readState, threadInfo, presentationData, _, selected, displayCustomHeader, orderingKey, _, _, allPaused, storyStats, requiresPremiumForMessaging):
                 let header: ChatListSearchItemHeader
                 switch orderingKey {
@@ -2213,12 +2213,12 @@ final class ChatListSearchListPaneNode: ASDisplayNode, ChatListSearchPaneNode {
                 existingPeerIds.removeAll()
                 
                 let localExpandType: ChatListSearchSectionExpandType = .none
-                let globalExpandType: ChatListSearchSectionExpandType
-                if totalNumberOfGlobalPeers > 3 {
-                    globalExpandType = searchState.expandGlobalSearch ? .collapse : .expand
-                } else {
-                    globalExpandType = .none
-                }
+//                let globalExpandType: ChatListSearchSectionExpandType
+//                if totalNumberOfGlobalPeers > 3 {
+//                    globalExpandType = searchState.expandGlobalSearch ? .collapse : .expand
+//                } else {
+//                    globalExpandType = .none
+//                }
                 
                 let lowercasedQuery = finalQuery.lowercased()
                 if lowercasedQuery.count > 1 && (presentationData.strings.DialogList_SavedMessages.lowercased().hasPrefix(lowercasedQuery) || "saved messages".hasPrefix(lowercasedQuery)) {
@@ -2310,23 +2310,23 @@ final class ChatListSearchListPaneNode: ASDisplayNode, ChatListSearchPaneNode {
                     }
                 }
 
-                var numberOfGlobalPeers = 0
-                index = 0
-                if let _ = tagMask {
-                } else {
-                    for peer in foundRemotePeers.1 {
-                        if case .expand = globalExpandType, numberOfGlobalPeers >= 3 {
-                            break
-                        }
-                        
-                        if !existingPeerIds.contains(peer.peer.id), filteredPeer(EnginePeer(peer.peer), EnginePeer(accountPeer)) {
-                            existingPeerIds.insert(peer.peer.id)
-                            entries.append(.globalPeer(peer, nil, index, presentationData.theme, presentationData.strings, presentationData.nameSortOrder, presentationData.nameDisplayOrder, globalExpandType, nil, false))
-                            index += 1
-                            numberOfGlobalPeers += 1
-                        }
-                    }
-                }
+//                var numberOfGlobalPeers = 0
+//                index = 0
+//                if let _ = tagMask {
+//                } else {
+//                    for peer in foundRemotePeers.1 {
+//                        if case .expand = globalExpandType, numberOfGlobalPeers >= 3 {
+//                            break
+//                        }
+//                        
+//                        if !existingPeerIds.contains(peer.peer.id), filteredPeer(EnginePeer(peer.peer), EnginePeer(accountPeer)) {
+//                            existingPeerIds.insert(peer.peer.id)
+//                            entries.append(.globalPeer(peer, nil, index, presentationData.theme, presentationData.strings, presentationData.nameSortOrder, presentationData.nameDisplayOrder, globalExpandType, nil, false))
+//                            index += 1
+//                            numberOfGlobalPeers += 1
+//                        }
+//                    }
+//                }
                 
                 if let message = resolvedMessage {
                     var peer = EngineRenderedPeer(message: message)
@@ -2665,11 +2665,11 @@ final class ChatListSearchListPaneNode: ASDisplayNode, ChatListSearchPaneNode {
                     if case let .user(user) = peer, user.flags.contains(.requirePremium) {
                         requiresPremiumForMessagingPeerIds.append(peer.id)
                     }
-                case let .globalPeer(foundPeer, _, _, _, _, _, _, _, _, _):
-                    storyStatsIds.append(foundPeer.peer.id)
-                    if let user = foundPeer.peer as? TelegramUser, user.flags.contains(.requirePremium) {
-                        requiresPremiumForMessagingPeerIds.append(foundPeer.peer.id)
-                    }
+//                case let .globalPeer(foundPeer, _, _, _, _, _, _, _, _, _):
+//                    storyStatsIds.append(foundPeer.peer.id)
+//                    if let user = foundPeer.peer as? TelegramUser, user.flags.contains(.requirePremium) {
+//                        requiresPremiumForMessagingPeerIds.append(foundPeer.peer.id)
+//                    }
                 case let .message(_, peer, _, _, _, _, _, _, _, _, _, _, _, _):
                     if let peer = peer.peer {
                         storyStatsIds.append(peer.id)
@@ -2706,8 +2706,8 @@ final class ChatListSearchListPaneNode: ASDisplayNode, ChatListSearchPaneNode {
                         mappedItems[i] = .recentlySearchedPeer(peer, associatedPeer, unreadBadge, index, theme, strings, sortOrder, displayOrder, stats[peer.id] ?? nil, requiresPremiumForMessaging[peer.id] ?? false)
                     case let .localPeer(peer, associatedPeer, unreadBadge, index, theme, strings, sortOrder, displayOrder, expandType, _, _):
                         mappedItems[i] = .localPeer(peer, associatedPeer, unreadBadge, index, theme, strings, sortOrder, displayOrder, expandType, stats[peer.id] ?? nil, requiresPremiumForMessaging[peer.id] ?? false)
-                    case let .globalPeer(peer, unreadBadge, index, theme, strings, sortOrder, displayOrder, expandType, _, _):
-                        mappedItems[i] = .globalPeer(peer, unreadBadge, index, theme, strings, sortOrder, displayOrder, expandType, stats[peer.peer.id] ?? nil, requiresPremiumForMessaging[peer.peer.id] ?? false)
+//                    case let .globalPeer(peer, unreadBadge, index, theme, strings, sortOrder, displayOrder, expandType, _, _):
+//                        mappedItems[i] = .globalPeer(peer, unreadBadge, index, theme, strings, sortOrder, displayOrder, expandType, stats[peer.peer.id] ?? nil, requiresPremiumForMessaging[peer.peer.id] ?? false)
                     case let .message(message, peer, combinedPeerReadState, threadInfo, presentationData, totalCount, selected, displayCustomHeader, key, resourceId, section, allPaused, _, _):
                         mappedItems[i] = .message(message, peer, combinedPeerReadState, threadInfo, presentationData, totalCount, selected, displayCustomHeader, key, resourceId, section, allPaused, stats[peer.peerId] ?? nil, requiresPremiumForMessaging[peer.peerId] ?? false)
                     default:
@@ -2741,8 +2741,10 @@ final class ChatListSearchListPaneNode: ASDisplayNode, ChatListSearchPaneNode {
                     for entry in entries {
                         if case let .localPeer(peer, _, _, _, _, _, _, _, _, _, _) = entry {
                             peers.append(peer)
-                        } else if case .globalPeer = entry {    
-                        } else {
+                        }
+//                        else if case .globalPeer = entry {
+//                        } 
+                        else {
                             filteredEntries.append(entry)
                         }
                     }

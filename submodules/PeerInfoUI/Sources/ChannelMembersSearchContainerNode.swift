@@ -43,7 +43,7 @@ private enum ChannelMembersSearchSection {
     case contacts
     case bots
     case admins
-    case global
+//    case global
     
     var chatListHeaderType: ChatListSearchItemHeaderType? {
         switch self {
@@ -59,8 +59,8 @@ private enum ChannelMembersSearchSection {
                 return .bots
             case .admins:
                 return .admins
-            case .global:
-                return .globalPeers
+//            case .global:
+//                return .globalPeers
         }
     }
 }
@@ -913,7 +913,7 @@ public final class ChannelMembersSearchContainerNode: SearchDisplayControllerCon
                         
                         if !existingPeerIds.contains(peer.id) && peer is TelegramUser {
                             existingPeerIds.insert(peer.id)
-                            entries.append(ChannelMembersSearchEntry(index: index, content: .peer(EnginePeer(peer)), section: .global, dateTimeFormat: presentationData.dateTimeFormat))
+//                            entries.append(ChannelMembersSearchEntry(index: index, content: .peer(EnginePeer(peer)), section: .global, dateTimeFormat: presentationData.dateTimeFormat))
                             index += 1
                         }
                     }
@@ -926,7 +926,7 @@ public final class ChannelMembersSearchContainerNode: SearchDisplayControllerCon
                         
                         if !existingPeerIds.contains(peer.id) && peer is TelegramUser {
                             existingPeerIds.insert(peer.id)
-                            entries.append(ChannelMembersSearchEntry(index: index, content: .peer(EnginePeer(peer)), section: .global, dateTimeFormat: presentationData.dateTimeFormat))
+//                            entries.append(ChannelMembersSearchEntry(index: index, content: .peer(EnginePeer(peer)), section: .global, dateTimeFormat: presentationData.dateTimeFormat))
                             index += 1
                         }
                     }
@@ -1165,7 +1165,7 @@ public final class ChannelMembersSearchContainerNode: SearchDisplayControllerCon
                         
                         if !existingPeerIds.contains(peer.id) && peer is TelegramUser {
                             existingPeerIds.insert(peer.id)
-                            entries.append(ChannelMembersSearchEntry(index: index, content: .peer(EnginePeer(peer)), section: .global, dateTimeFormat: presentationData.dateTimeFormat))
+//                            entries.append(ChannelMembersSearchEntry(index: index, content: .peer(EnginePeer(peer)), section: .global, dateTimeFormat: presentationData.dateTimeFormat))
                             index += 1
                         }
                     }
@@ -1179,7 +1179,7 @@ public final class ChannelMembersSearchContainerNode: SearchDisplayControllerCon
                         
                         if !existingPeerIds.contains(peer.id) && peer is TelegramUser {
                             existingPeerIds.insert(peer.id)
-                            entries.append(ChannelMembersSearchEntry(index: index, content: .peer(EnginePeer(peer)), section: .global, dateTimeFormat: presentationData.dateTimeFormat))
+//                            entries.append(ChannelMembersSearchEntry(index: index, content: .peer(EnginePeer(peer)), section: .global, dateTimeFormat: presentationData.dateTimeFormat))
                             index += 1
                         }
                     }
